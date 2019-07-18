@@ -1,0 +1,39 @@
+core.lits.
+core.lit_parties
+core.alias
+core.lit_parties_types
+alias name 
+
+coe.lit_judges_map.
+core.lit_courts
+core.lit_pats_map
+core.pats
+core.docket_entries
+
+
+
+
+
+
+---Litigation---
+select * from core.lits where case_key = 'txedce-158072'; 
+
+---Lit Parties---
+select * from core.lit_parties where lit_id = 56208;
+select * from core.lit_parties_representations where lit_parties_id = 579256;
+select * from core.lit_party_types where id in (74, 75, 76, 77);
+
+---Aliases and Entities---
+select * from core.aliases where ent_id is null limit 10;
+select * from core.aliases where ent_id = 67016;
+select * from core.ents where id = 67016;
+
+---Judges and Courts---
+select * from core.lit_judges_map where lit_id = 56208;
+select * from core.lit_courts where lit_id = 56208;
+
+---Patent in Suit---
+select * from core.lits_pats_map where lit_id = 56208;
+
+---Docket Entries---
+select * from core.docket_entries where lit_id = 56208;

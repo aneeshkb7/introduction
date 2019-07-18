@@ -1,0 +1,73 @@
+Steps to enable logrotate
+=========================
+#sample code
+
+# Logrotate file for /var/log/solr.log
+/opt/solr/example/cloud/node1/logs/*.log
+{
+su root
+daily
+missingok
+rotate 3   
+compress     
+size 5K   
+notifempty
+create 644 aneesh aneesh
+}
+
+
+
+
+
+
+#create a configuration file for your log directory at /etc/logrotate.d/filename
+
+#eg:sudo subl /etc/logrotate.d/psql
+
+#then copy the below code and paste it on the file and edit according to your need(# is comment) 
+#----------------------------------------------------------
+
+#begin
+
+# Logrotate file for /var/log/postgresql/*.log       
+
+/var/log/postgresql/*.log
+{
+
+#we need to specify the owner of the log file directory(/var/log/postgresql/*.log ) in this case it is root.
+su root 
+
+
+#indicates that only 3 rotated logs should be kept. Thus, the oldest file will be removed on the fourth subsequent
+rotate 3   
+
+#compress and delaycompress are used to tell that all rotated logs, with the exception of the most recent one,
+#should be compressed.
+compress   
+
+
+#sets the minimum size for the rotation to take place to 10MB. In other words, each log will not be rotated until it 
+#reaches 10MB.
+size 10MB   
+
+
+#weekly means that the tool will attempt to rotate the logs on a weekly basis. Other possible values are daily, 
+#monthly, and hourly 
+weekly   
+
+
+#r=4 w=2 x=1 (owner group other ) ie: 640 means owner have rw permision(4+2) group have read permission(4) others have 
+#no permission(0)
+create 640 postgres postgres 
+
+
+#After rotation if you have to perform anything use postrotate it is not mandatory and prerotate to perform 
+#before logrotation  
+postrotate  
+echo "A Rotation just took place restarted postgres"   
+sudo service postgresql restart   
+endscript
+}
+
+#end
+

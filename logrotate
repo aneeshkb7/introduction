@@ -1,0 +1,31 @@
+sudo docker run -it ubuntu	//to install new ubuntu container
+
+sudo docker start -i container_id (46185180a022) 	//to start docker with id
+
+sudo docker cp log_test 46185180a022:/log_test		//to copy file from host to docker
+
+apt-get install cron 		// to install crontab
+
+apt-get install logrotate 	// to install logrotate
+
+apt-get install vim			// to install editor
+
+#Create a file for logrotate
+
+/var/tmp/test_log1.log{										// path of the log to be rotated
+missingok													// if log is missing , error should not be thrown
+rotate 2													// keep 2 backup of the rotated logs
+size 100k													// if the file reaches the size it should be rotated
+notifempty													// if the file is empty it should not be rotated
+compress													// to compress the file for backup
+create 640 root root 					    				// to create a new log file with permissions
+postrotate													// for performing some operation after doing logrotate
+ echo "Logrotated"											// prints msg that logrotated
+endscript													// to close the postrotate operation
+}
+
+# Add the lines in /etc/crontab for running logrotation operation
+
+* *     * * *   root	logrotate -f /etc/logrotate.d/log_test 	//to run the cron job for every min
+
+	
